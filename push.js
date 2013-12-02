@@ -8,17 +8,13 @@ $(function() {
             return;
         }
         var input = document.getElementById('fileinput');
-        if(!input) {
-            alert('error');
-        } else if(!input.files) {
-            alert("no files");
-        } else if(!input.files[0]) {
-            alert("please attach some files");
-        }
         var file = input.files[0];
         var fr = new FileReader();
         fr.onload = function() {
-            socket.emit("fileSend", fr.result);
+            var data = new Object();
+            data.data = fr.result;
+            data.name = file.name;
+            socket.emit("fileSend", data);
         }
         fr.readAsDataURL(file);
     });
